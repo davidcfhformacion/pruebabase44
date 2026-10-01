@@ -66,7 +66,7 @@
             list-style: none;
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
             flex-wrap: wrap;
@@ -130,25 +130,13 @@
         }
 
         @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Container */
@@ -218,14 +206,8 @@
         .card:nth-child(3) { animation-delay: 0.3s; }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card:hover {
@@ -335,12 +317,59 @@
             margin: 0;
         }
 
+        /* NUEVA SECCIÓN: Galería Masonry */
+        .masonry-gallery {
+            columns: 1;
+            column-gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 600px) { .masonry-gallery { columns: 2; } }
+        @media (min-width: 900px) { .masonry-gallery { columns: 3; } }
+
+        .masonry-item {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            display: block;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+            filter: brightness(0.9);
+        }
+
+        .masonry-item:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-lg);
+            filter: brightness(1.1);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* NUEVA SECCIÓN: Contenedor del Mapa */
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+            height: 450px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         /* Footer */
+        [id] {
+            scroll-margin-top: 80px;
+        }
+
         footer {
-            background-color: var(--text-dark);
+            background-color: #2b2b2b;
             color: white;
             padding: 3rem 2rem 1rem;
-            margin-top: 3rem;
         }
 
         footer .container {
@@ -382,47 +411,48 @@
             color: #b0b0b0;
         }
 
-        /* Botones */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-color);
+        /* NUEVO: Botón Flotante de "Volver arriba" */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
             color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             border: none;
+            font-size: 1.5rem;
             cursor: pointer;
-            font-size: 1rem;
-            margin-top: 1rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
-        .btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
         }
-
-        /* Responsive */
+        
         @media (max-width: 768px) {
-            header {
-                height: 50vh;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .features {
-                margin-top: -40px;
-            }
-
-            .section {
-                padding: 2rem 0;
-            }
-
-            header h1 {
-                letter-spacing: 4px;
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -435,6 +465,8 @@
             <li><a href="#historia">Historia</a></li>
             <li><a href="#gastronomia">Gastronomía</a></li>
             <li><a href="#actividades">Actividades</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#mapa">Mapa</a></li>
             <li><a href="#contacto">Contacto</a></li>
         </ul>
     </nav>
@@ -446,18 +478,18 @@
 
     <section class="section">
         <div class="container">
-            <div class="features" id="naturaleza">
-                <div class="card">
+            <div class="features">
+                <div class="card" id="naturaleza">
                     <span class="icon">🏔️</span>
                     <h2>Naturaleza</h2>
                     <p>Descubre el Parque Nacional de Ordesa y Monte Perdido, un paraíso inigualable para los amantes del senderismo, los ibones y la alta montaña.</p>
                 </div>
-                <div class="card">
+                <div class="card" id="historia">
                     <span class="icon">🏰</span>
                     <h2>Historia</h2>
                     <p>Explora maravillas arquitectónicas y castillos milenarios como el Castillo de Loarre, la fortaleza románica mejor conservada de Europa.</p>
                 </div>
-                <div class="card">
+                <div class="card" id="gastronomia">
                     <span class="icon">🍷</span>
                     <h2>Gastronomía</h2>
                     <p>Disfruta de los vinos de la D.O. Somontano, el tomate rosa de Barbastro y una rica cocina tradicional nacida a los pies de la montaña.</p>
@@ -466,34 +498,34 @@
         </div>
     </section>
 
-    <section class="section" id="historia">
+    <section class="section" id="por-que">
         <div class="container">
             <h2>Por qué visitar Huesca</h2>
             <div class="stats">
                 <div class="stat-box">
-                    <div class="stat-number">22,000</div>
-                    <div class="stat-label">Ha de áreas protegidas</div>
+                    <div class="stat-number">3.404 m</div>
+                    <div class="stat-label">Aneto, el techo de los Pirineos</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">800+</div>
-                    <div class="stat-label">Años de historia medieval</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">2,644m</div>
+                    <div class="stat-number">3.355 m</div>
                     <div class="stat-label">Altura de Monte Perdido</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-number">5D.O.</div>
-                    <div class="stat-label">Denominaciones de origen</div>
+                    <div class="stat-number">1918</div>
+                    <div class="stat-label">Año de creación del Parque Nacional de Ordesa</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">S. XI</div>
+                    <div class="stat-label">Origen del Castillo de Loarre</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="gastronomia">
+    <section class="section" id="actividades">
         <div class="container">
             <h2>Actividades y Experiencias</h2>
-            <div class="activities-grid" id="actividades">
+            <div class="activities-grid">
                 <div class="activity-card">
                     <div class="activity-icon">🥾</div>
                     <div class="activity-content">
@@ -540,6 +572,32 @@
         </div>
     </section>
 
+    <!-- NUEVA SECCIÓN: Galería de Imágenes Masonry -->
+    <section class="section" id="galeria">
+        <div class="container">
+            <h2>Galería de Paisajes</h2>
+            <div class="masonry-gallery">
+                <img src="https://images.unsplash.com/photo-1590880449155-b54f958ce314?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pirineos nevados" class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1548682859-e93dc41269fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Naturaleza y cascadas" class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Castillo antiguo" class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1517409259207-6c84cce316d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pueblo de montaña" class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1469521669194-babbdf9aa9b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Valle verde" class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1518451801831-29bc7b2695c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paisaje natural" class="masonry-item">
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: Mapa Interactivo -->
+    <section class="section" id="mapa">
+        <div class="container">
+            <h2>¿Dónde estamos?</h2>
+            <div class="map-container">
+                <!-- Mapa centrado en el Parque Nacional de Ordesa y Monte Perdido -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d187216.03816766467!2d-0.08117765103723377!3d42.66442680468925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a81832103fb8cd%3A0xcb1b6819eb31eb63!2sParque%20Nacional%20de%20Ordesa%20y%20Monte%20Perdido!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
     <footer id="contacto">
         <div class="container">
             <div>
@@ -555,7 +613,7 @@
                 <h3>Recursos útiles</h3>
                 <ul>
                     <li><a href="#" onclick="alert('Información turística próximamente')">Información turística</a></li>
-                    <li><a href="#" onclick="alert('Mapa interactivo próximamente')">Mapa interactivo</a></li>
+                    <li><a href="#mapa">Mapa interactivo</a></li>
                     <li><a href="#" onclick="alert('Transporte próximamente')">Cómo llegar</a></li>
                     <li><a href="#" onclick="alert('Alojamiento próximamente')">Alojamiento</a></li>
                 </ul>
@@ -576,5 +634,33 @@
         </div>
     </footer>
 
+    <!-- BOTÓN DE VOLVER ARRIBA -->
+    <button id="backToTop" class="back-to-top" aria-label="Volver arriba" title="Volver arriba">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+
+    <script>
+        // Lógica del Botón Flotante "Volver Arriba"
+        const backToTopBtn = document.getElementById('backToTop');
+
+        // Mostrar u ocultar el botón al hacer scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Al hacer click, subir con efecto suave
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 </html>
