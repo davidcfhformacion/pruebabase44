@@ -3,135 +3,577 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descubre Huesca</title>
+    <meta name="description" content="Descubre Huesca: la magia de los Pirineos. Naturaleza, historia, gastronomía y aventura en la provincia más bonita de Aragón.">
+    <meta name="keywords" content="Huesca, Pirineos, turismo, Ordesa, Loarre, montaña">
+    <meta name="author" content="Huesca Turismo">
+    <meta property="og:title" content="Descubre Huesca - La Magia de los Pirineos">
+    <meta property="og:description" content="Explora naturaleza, historia y gastronomía en los Pirineos aragoneses">
+    <meta property="og:type" content="website">
+    <title>Descubre Huesca | Pirineos Aragoneses</title>
     <style>
         :root {
-            --primary-color: #2e7d32; /* Verde bosque */
+            --primary-color: #2e7d32;
+            --primary-dark: #1b5e20;
             --secondary-color: #f0f4f0;
+            --accent-color: #d4a574;
             --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-md: 0 15px 30px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --secondary-color: #1a1a1a;
+                --text-dark: #e0e0e0;
+                --text-light: #b0b0b0;
+                --bg-light: #2a2a2a;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--secondary-color);
             color: var(--text-dark);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        /* Navegación */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(46, 125, 50, 0.95);
+            padding: 0.5rem 2rem;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Header */
         header {
-            /* Imagen libre de derechos de montañas (simulando los Pirineos) */
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            height: 60vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            height: 70vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
         }
 
-        h1 {
-            font-size: 4.5rem;
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(46, 125, 50, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 6px;
-            text-shadow: 2px 4px 15px rgba(0,0,0,0.6);
+            letter-spacing: 8px;
+            text-shadow: 3px 6px 20px rgba(0,0,0,0.7);
+            animation: slideInDown 0.8s ease;
         }
 
-        p.subtitle {
-            font-size: 1.6rem;
-            margin-top: 10px;
+        header .subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            margin-top: 1rem;
             font-weight: 300;
-            text-shadow: 1px 2px 8px rgba(0,0,0,0.5);
+            text-shadow: 2px 4px 12px rgba(0,0,0,0.6);
+            animation: slideInUp 0.8s ease 0.2s both;
         }
 
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container */
         .container {
-            max-width: 1100px;
-            margin: 0 auto 50px auto;
-            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        /* Tarjetas superpuestas sobre la imagen de cabecera */
+        /* Sección de características */
+        .section {
+            padding: 4rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .section {
+                border-bottom-color: rgba(255,255,255,0.1);
+            }
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* Tarjetas */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 2rem;
             margin-top: -60px;
-        }
-
-        .card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center;
             position: relative;
             z-index: 10;
         }
 
+        .card {
+            background: var(--bg-light);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            border-top: 4px solid var(--primary-color);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+            border-top-color: var(--accent-color);
         }
 
         .card h2 {
             color: var(--primary-color);
             margin-top: 0;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .card p {
-            line-height: 1.6;
-            color: #666;
-            font-size: 1.1rem;
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
         }
 
         .icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
             display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
 
-        footer {
+        /* Sección de estadísticas */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .stat-box {
             text-align: center;
-            padding: 25px;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 12px;
+            color: white;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        /* Sección de actividades */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .activity-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .activity-icon {
+            font-size: 4rem;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .activity-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .activity-content h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
             background-color: var(--text-dark);
             color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer h3 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.95rem;
+            color: #b0b0b0;
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                height: 50vh;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .features {
+                margin-top: -40px;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            header h1 {
+                letter-spacing: 4px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <nav>
+        <ul>
+            <li><a href="#naturaleza">Naturaleza</a></li>
+            <li><a href="#historia">Historia</a></li>
+            <li><a href="#gastronomia">Gastronomía</a></li>
+            <li><a href="#actividades">Actividades</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
 
     <header>
         <h1>Huesca</h1>
         <p class="subtitle">La Magia de los Pirineos</p>
     </header>
 
-    <div class="container">
-        <div class="features">
-            <div class="card">
-                <span class="icon">🏔️</span>
-                <h2>Naturaleza</h2>
-                <p>Descubre el Parque Nacional de Ordesa y Monte Perdido, un paraíso inigualable para los amantes del senderismo, los ibones y la alta montaña.</p>
-            </div>
-            <div class="card">
-                <span class="icon">🏰</span>
-                <h2>Historia</h2>
-                <p>Explora maravillas arquitectónicas y castillos milenarios como el Castillo de Loarre, la fortaleza románica mejor conservada de Europa.</p>
-            </div>
-            <div class="card">
-                <span class="icon">🍷</span>
-                <h2>Gastronomía</h2>
-                <p>Disfruta de los vinos de la D.O. Somontano, el tomate rosa de Barbastro y una rica cocina tradicional nacida a los pies de la montaña.</p>
+    <section class="section">
+        <div class="container">
+            <div class="features" id="naturaleza">
+                <div class="card">
+                    <span class="icon">🏔️</span>
+                    <h2>Naturaleza</h2>
+                    <p>Descubre el Parque Nacional de Ordesa y Monte Perdido, un paraíso inigualable para los amantes del senderismo, los ibones y la alta montaña.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">🏰</span>
+                    <h2>Historia</h2>
+                    <p>Explora maravillas arquitectónicas y castillos milenarios como el Castillo de Loarre, la fortaleza románica mejor conservada de Europa.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">🍷</span>
+                    <h2>Gastronomía</h2>
+                    <p>Disfruta de los vinos de la D.O. Somontano, el tomate rosa de Barbastro y una rica cocina tradicional nacida a los pies de la montaña.</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2026 - Huesca la Magia | Desarrollado en local</p>
+    <section class="section" id="historia">
+        <div class="container">
+            <h2>Por qué visitar Huesca</h2>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">22,000</div>
+                    <div class="stat-label">Ha de áreas protegidas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">800+</div>
+                    <div class="stat-label">Años de historia medieval</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2,644m</div>
+                    <div class="stat-label">Altura de Monte Perdido</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5D.O.</div>
+                    <div class="stat-label">Denominaciones de origen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="gastronomia">
+        <div class="container">
+            <h2>Actividades y Experiencias</h2>
+            <div class="activities-grid" id="actividades">
+                <div class="activity-card">
+                    <div class="activity-icon">🥾</div>
+                    <div class="activity-content">
+                        <h3>Senderismo</h3>
+                        <p>Rutas para todos los niveles en los Pirineos, desde paseos suaves hasta ascensos desafiantes.</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🚴</div>
+                    <div class="activity-content">
+                        <h3>Ciclismo</h3>
+                        <p>Recorre espectaculares rutas en bicicleta por montaña y senderos forestales.</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">⛷️</div>
+                    <div class="activity-content">
+                        <h3>Esquí</h3>
+                        <p>Estaciones de esquí de calidad con vistas panorámicas de los Pirineos.</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">📸</div>
+                    <div class="activity-content">
+                        <h3>Fotografía</h3>
+                        <p>Paisajes espectaculares para capturar la belleza de la naturaleza aragonesa.</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🍽️</div>
+                    <div class="activity-content">
+                        <h3>Gastronomía</h3>
+                        <p>Disfruta de la cocina tradicional y moderna en restaurantes de renombre.</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🏛️</div>
+                    <div class="activity-content">
+                        <h3>Patrimonio</h3>
+                        <p>Visita monumentos históricos, iglesias románicas y pueblos con encanto.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="container">
+            <div>
+                <h3>Planifica tu visita</h3>
+                <ul>
+                    <li><a href="#naturaleza">Parques naturales</a></li>
+                    <li><a href="#historia">Patrimonio histórico</a></li>
+                    <li><a href="#gastronomia">Gastronomía local</a></li>
+                    <li><a href="#actividades">Actividades</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Recursos útiles</h3>
+                <ul>
+                    <li><a href="#" onclick="alert('Información turística próximamente')">Información turística</a></li>
+                    <li><a href="#" onclick="alert('Mapa interactivo próximamente')">Mapa interactivo</a></li>
+                    <li><a href="#" onclick="alert('Transporte próximamente')">Cómo llegar</a></li>
+                    <li><a href="#" onclick="alert('Alojamiento próximamente')">Alojamiento</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Conecta con nosotros</h3>
+                <ul>
+                    <li><a href="#" onclick="alert('Instagram próximamente')">📱 Instagram</a></li>
+                    <li><a href="#" onclick="alert('Facebook próximamente')">📘 Facebook</a></li>
+                    <li><a href="#" onclick="alert('Twitter próximamente')">𝕏 Twitter</a></li>
+                    <li><a href="mailto:info@huesca.es">✉️ Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 - Huesca Turismo | La Magia de los Pirineos</p>
+            <p>Desarrollado con ❤️ en Huesca</p>
+        </div>
     </footer>
 
 </body>
