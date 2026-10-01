@@ -1,25 +1,76 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+session_start();
+
+// Lógica para el contador con persistencia en sesión (API REST simulada)
+if (isset($_GET['action'])) {
+    header('Content-Type: application/json');
+    if (!isset($_SESSION['count'])) $_SESSION['count'] = 0;
+
+    if ($_GET['action'] === 'inc') $_SESSION['count']++;
+    elseif ($_GET['action'] === 'dec') $_SESSION['count']--;
+    elseif ($_GET['action'] === 'reset') $_SESSION['count'] = 0;
+
+    echo json_encode(['count' => $_SESSION['count']]);
+    exit;
+}
+
+$count = $_SESSION['count'] ?? 0;
+
+// Saludo dinámico según la hora del servidor
+date_default_timezone_set('Europe/Madrid');
+$hora = (int)date('H');
+if ($hora >= 6 && $hora < 12) {
+    $saludo = "¡Buenos días, David!";
+    $icono = "🌅";
+} elseif ($hora >= 12 && $hora < 20) {
+    $saludo = "¡Buenas tardes, David!";
+    $icono = "☕";
+} else {
+    $saludo = "¡Buenas noches, David!";
+    $icono = "🌙";
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Hola, David!</title>
+    <title><?= $saludo ?></title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-gradient: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --card-border: rgba(255, 255, 255, 0.25);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.85);
+            --btn-bg: #ffffff;
+            --btn-color: #e73c7e;
+            --badge-bg: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #e94560);
+            --card-bg: rgba(0, 0, 0, 0.4);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #e0e0e0;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --btn-bg: #2a2a2a;
+            --btn-color: #e94560;
+            --badge-bg: rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s, transform 0.2s; }
 
         body {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-family: system-ui, -apple-system, sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background: var(--bg-gradient);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
-            overflow: hidden;
         }
 
         @keyframes gradientShift {
@@ -28,16 +79,36 @@ header('Content-Type: text/html; charset=utf-8');
             100% { background-position: 0% 50%; }
         }
 
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+        }
+
         .card {
             text-align: center;
             padding: 3rem 2.5rem;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             max-width: 500px;
+            width: 90%;
             animation: fadeInUp 0.8s ease;
         }
 
@@ -47,110 +118,130 @@ header('Content-Type: text/html; charset=utf-8');
         }
 
         .emoji {
-            font-size: 4rem;
+            font-size: 4.5rem;
             display: inline-block;
-            animation: wave 2s ease infinite;
+            animation: float 3s ease-in-out infinite;
+            margin-bottom: 0.5rem;
         }
 
-        @keyframes wave {
-            0%, 100% { transform: rotate(0deg); }
-            20%      { transform: rotate(15deg); }
-            40%      { transform: rotate(-10deg); }
-            60%      { transform: rotate(15deg); }
-            80%      { transform: rotate(-5deg); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
         }
 
         h1 {
-            color: #fff;
-            font-size: 2.5rem;
+            color: var(--text-main);
+            font-size: 2.2rem;
             margin: 0.5rem 0;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .subtitle {
-            color: rgba(255, 255, 255, 0.85);
+            color: var(--text-muted);
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
         }
 
         #clock {
-            color: #fff;
-            font-size: 1.3rem;
+            color: var(--text-main);
+            font-size: 1.5rem;
             font-weight: 600;
             font-variant-numeric: tabular-nums;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.2);
+            padding: 0.6rem 1.2rem;
+            background: var(--badge-bg);
             border-radius: 12px;
             display: inline-block;
             margin-bottom: 1.5rem;
+            border: 1px solid var(--card-border);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .counter-section {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .btn {
             border: none;
-            padding: 0.75rem 1.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 0.8rem 2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            color: #e73c7e;
-            background: #fff;
+            color: var(--btn-color);
+            background: var(--btn-bg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
-
-        .btn:hover { transform: scale(1.08); box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
+        
+        .btn:hover { transform: scale(1.05); }
         .btn:active { transform: scale(0.95); }
 
+        .btn-reset {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1.5rem;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+        .btn-reset:hover {
+            background: var(--badge-bg);
+        }
+
         #count {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
-            min-width: 3rem;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            min-width: 4rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .badges {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.6rem;
             justify-content: center;
+            margin-top: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--card-border);
         }
 
         .badge {
-            padding: 0.35rem 0.9rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
             font-size: 0.85rem;
-            font-weight: 500;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            color: var(--text-main);
+            background: var(--badge-bg);
+            border: 1px solid var(--card-border);
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="emoji">👋</div>
-        <h1>¡Hola, David!</h1>
-        <p class="subtitle">Página de prueba dinámica en PHP</p>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Modo Oscuro</button>
 
-        <div id="clock"></div>
+    <div class="card">
+        <div class="emoji"><?= $icono ?></div>
+        <h1><?= $saludo ?></h1>
+        <p class="subtitle">PHP Avanzado: Fetch API + Sesiones</p>
+
+        <div id="clock">--:--:--</div>
 
         <div class="counter-section">
-            <button class="btn" onclick="changeCount(-1)">−</button>
-            <span id="count">0</span>
-            <button class="btn" onclick="changeCount(1)">+</button>
+            <button class="btn" onclick="updateCounter('dec')" aria-label="Restar">−</button>
+            <span id="count"><?= $count ?></span>
+            <button class="btn" onclick="updateCounter('inc')" aria-label="Sumar">+</button>
         </div>
+        <button class="btn btn-reset" onclick="updateCounter('reset')">↺ Reiniciar Contador</button>
 
         <div class="badges">
             <span class="badge">PHP <?= phpversion() ?></span>
-            <span class="badge">Servidor integrado</span>
-            <span class="badge">Docker Compose</span>
+            <span class="badge">Sesión Activa</span>
+            <span class="badge">Fetch API</span>
         </div>
     </div>
 
@@ -164,16 +255,33 @@ header('Content-Type: text/html; charset=utf-8');
         updateClock();
         setInterval(updateClock, 1000);
 
-        // Contador dinámico
-        let count = 0;
-        function changeCount(delta) {
-            count += delta;
-            document.getElementById('count').textContent = count;
-            const el = document.getElementById('count');
-            el.animate(
-                [{ transform: 'scale(1.3)' }, { transform: 'scale(1)' }],
-                { duration: 200, easing: 'ease-out' }
-            );
+        // Fetch API para comunicarse con PHP sin recargar
+        async function updateCounter(action) {
+            try {
+                const response = await fetch(`?action=${action}`);
+                const data = await response.json();
+                
+                const el = document.getElementById('count');
+                el.textContent = data.count;
+                
+                // Efecto visual al cambiar
+                el.animate(
+                    [{ transform: 'scale(1.4)' }, { transform: 'scale(1)' }],
+                    { duration: 300, easing: 'ease-out' }
+                );
+            } catch (e) {
+                console.error('Error de conexión:', e);
+            }
+        }
+
+        // Alternador de Modo Claro/Oscuro
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = isDark ? '🌓 Modo Oscuro' : '☀️ Modo Claro';
         }
     </script>
 </body>
