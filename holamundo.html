@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo - HTML Mágico</title>
+    <title>Hola Mundo - Neón Vibrante</title>
     <style>
         :root {
-            --primary: #00ffcc;
-            --secondary: #ff00ff;
-            --bg: #0a0a0a;
+            --neon-cyan: #00f2ff;
+            --neon-magenta: #ff00ff;
+            --bg-dark: #050505;
         }
 
         body, html {
@@ -16,7 +16,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg);
+            background-color: var(--bg-dark);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -30,25 +30,25 @@
             overflow: hidden;
             z-index: 0;
         }
-        
+
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
+            filter: blur(100px);
+            opacity: 0.55;
             animation: float 10s infinite alternate ease-in-out;
         }
-        
+
         .orb-1 {
-            width: 300px; height: 300px;
-            background: var(--primary);
-            top: 10%; left: 20%;
+            width: 380px; height: 380px;
+            background: var(--neon-cyan);
+            top: 5%; right: 10%;
         }
-        
+
         .orb-2 {
-            width: 400px; height: 400px;
-            background: var(--secondary);
-            bottom: 10%; right: 20%;
+            width: 420px; height: 420px;
+            background: var(--neon-magenta);
+            bottom: 5%; left: 10%;
             animation-delay: -5s;
         }
 
@@ -60,37 +60,46 @@
         .glass-card {
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(20, 20, 20, 0.45);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            border: 1px solid transparent;
+            border-radius: 16px;
             padding: 4rem;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            transition: transform 0.2s ease-out;
+            box-shadow:
+                0 0 30px rgba(0, 242, 255, 0.15),
+                0 0 60px rgba(255, 0, 255, 0.1),
+                0 25px 50px rgba(0, 0, 0, 0.7);
+            transition: transform 0.15s ease-out;
             transform-style: preserve-3d;
             perspective: 1000px;
             min-width: 300px;
+            background-image: linear-gradient(var(--bg-dark), var(--bg-dark)),
+                              linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
         }
 
         .title {
             font-size: 4rem;
             font-weight: 900;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin: 0 0 1rem 0;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.3));
             transform: translateZ(50px);
         }
 
         .subtitle {
-            color: #a0a0a0;
+            color: #ffffff;
             font-size: 1.2rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 2rem;
+            font-weight: 500;
             transform: translateZ(30px);
         }
 
@@ -98,25 +107,33 @@
             display: inline-block;
             padding: 1rem 2.5rem;
             background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 2px solid transparent;
             border-radius: 50px;
             font-size: 1.1rem;
+            font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             transform: translateZ(20px);
             cursor: pointer;
+            background-image: linear-gradient(var(--bg-dark), var(--bg-dark)),
+                              linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), 0 0 15px rgba(255, 0, 255, 0.15);
         }
 
         .btn:hover {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+            box-shadow:
+                0 0 25px rgba(0, 242, 255, 0.5),
+                0 0 50px rgba(255, 0, 255, 0.35),
+                inset 0 0 20px rgba(0, 242, 255, 0.15);
             transform: translateZ(20px) scale(1.05);
-            color: var(--primary);
+            color: var(--neon-cyan);
         }
-        
+
         .btn:active {
             transform: translateZ(20px) scale(0.95);
         }
@@ -138,7 +155,7 @@
     <script>
         // Efecto 3D al mover el ratón (Parallax tilt)
         const card = document.getElementById('card');
-        
+
         document.addEventListener('mousemove', (e) => {
             const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
@@ -154,17 +171,17 @@
         function celebrate() {
             const btn = document.querySelector('.btn');
             const originalText = btn.textContent;
-            
+
             btn.textContent = '✨ ¡Magia! ✨';
-            btn.style.background = 'var(--primary)';
+            btn.style.background = 'var(--neon-cyan)';
             btn.style.color = 'black';
-            btn.style.borderColor = 'var(--primary)';
-            
+            btn.style.borderColor = 'var(--neon-cyan)';
+
             setTimeout(() => {
                 btn.textContent = originalText;
                 btn.style.background = 'transparent';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                btn.style.color = '#ffffff';
+                btn.style.borderColor = '';
             }, 2000);
         }
     </script>
