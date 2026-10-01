@@ -6,7 +6,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Hola, Mundo!</title>
+    <title>¡Hola, David!</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -136,7 +136,7 @@ header('Content-Type: text/html; charset=utf-8');
 <body>
     <div class="card">
         <div class="emoji">👋</div>
-        <h1>¡Hola, Mundo!</h1>
+        <h1>¡Hola, David!</h1>
         <p class="subtitle">Página de prueba dinámica en PHP</p>
 
         <div id="clock"></div>
